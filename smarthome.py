@@ -4,7 +4,7 @@ import adafruit_dht
 import socket
 
 HOST = '82.165.66.189'
-PORT = 1337
+PORT = 5555
 dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
 connected = False
 
