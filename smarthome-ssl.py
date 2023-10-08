@@ -2,6 +2,7 @@ import time
 import board
 import adafruit_dht
 import socket
+import ssl
 
 HOST = '82.165.66.189'
 PORT = 1337
@@ -9,9 +10,10 @@ dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
 connected = False
 
 def connect():
-	global sock
+	global sock, wrappedSocket
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	sock.connect((HOST, PORT))
+	wrappedSocket = ssl.wrap_socket(sock, ssl_version=ssl.PROTOCOL_TLSv1, ciphers="ADH-AES256-SHA")
+	wrappedSocket.connect((HOST, PORT))
 
 while True:
 	try:
@@ -31,7 +33,7 @@ while True:
 	except Exception as error:
 		print("Connection Error")
 		connected = False
-		sock.close()
+		wrappedSocket.close()
 		time.sleep(5)
 		continue
 	time.sleep(10)
