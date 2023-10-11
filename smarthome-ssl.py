@@ -4,12 +4,12 @@ import adafruit_dht
 import socket
 import ssl
 
-HOST = '82.165.66.189'
+HOST = 'dddrey.info'
 PORT = 1337
 dhtDevice = adafruit_dht.DHT22(board.D4, use_pulseio=False)
-connected = False
 
 def connect():
+	print("Connecting...")
 	global sock, wrappedSocket
 	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	wrappedSocket = ssl.create_default_context().wrap_socket(sock,server_hostname=HOST)
@@ -17,10 +17,7 @@ def connect():
 
 while True:
 	try:
-		if connected == False:
-			print("Connecting...")
-			connect()
-			connected = True
+		connect()
 		temperature = dhtDevice.temperature
 		humidity = dhtDevice.humidity
 		print("temp:",temperature,"humid:",humidity)
@@ -32,7 +29,6 @@ while True:
 		continue
 	except Exception as error:
 		print("Connection Error")
-		connected = False
 		wrappedSocket.close()
 		time.sleep(5)
 		continue
