@@ -33,4 +33,4 @@ echo "[ctrl+c to interrupt]"
 echo "Wait 10 secounds..."
 sleep 10
 
-tshark -i $netint -w result.pcap -f "host 82.165.66.189" -a duration:30
+tshark -i $netint -w result.pcap -f "host dddrey.info" -a duration:30
